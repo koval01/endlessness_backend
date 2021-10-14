@@ -28,7 +28,7 @@ class Random(Resource):
                 "caption": post.caption,
                 "likes_count": post.likes,
             })
-            if len(posts) > 20: break
+            if len(posts) > 10: break
         return jsonify(posts)
 
 
