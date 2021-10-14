@@ -8,6 +8,8 @@ app = Flask(__name__)
 api = Api(app)
 CORS(app)
 
+instloader = instaloader.Instaloader()
+
 
 class status(Resource):
     def get(self) -> None:
