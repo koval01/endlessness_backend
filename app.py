@@ -28,6 +28,7 @@ class Random(Resource):
                 "caption": post.caption,
                 "likes_count": post.likes,
                 "shortcode": post.shortcode,
+                "id": post.mediaid,
             })
             if len(posts) > 10: break
         return jsonify(posts)
