@@ -2,13 +2,14 @@ from flask import Flask, jsonify, request
 from flask_restful import Resource, Api
 from flask_cors import CORS
 
-import instaloader
+from instaloader import Instaloader
 
 app = Flask(__name__)
 api = Api(app)
 CORS(app)
 
-instloader = instaloader.Instaloader()
+instload = Instaloader()
+instload.login("develop_account_kdv", "tiwjyg-9renva-jadwaV")
 
 
 class status(Resource):
@@ -18,10 +19,17 @@ class status(Resource):
       
 class Random(Resource):
     def get(self) -> None:
-        import random
-        json_data = {"random": random.uniform(0.00000001, 0.001)}
-        
-        return jsonify(json_data)
+        feed = instload.get_explore_posts()
+        posts = []
+        for post in feed:
+            posts.append({
+                "img_link": post.url,
+                "type_post": post.typename,
+                "caption": post.caption,
+                "likes_count": post.likes,
+            })
+            if len(posts) > 20: break
+        return jsonify(posts)
 
 
 api.add_resource(status, '/')
