@@ -3,6 +3,7 @@ from flask_restful import Resource, Api
 from flask_cors import CORS
 
 from instaloader import Instaloader
+from .utils import number_formatter
 
 app = Flask(__name__)
 api = Api(app)
@@ -26,7 +27,7 @@ class Random(Resource):
                 "img_link": post.url,
                 "type_post": post.typename,
                 "caption": post.caption,
-                "likes_count": post.likes,
+                "likes_count": number_formatter(int(post.likes)),
                 "shortcode": post.shortcode,
                 "id": post.mediaid,
             })
