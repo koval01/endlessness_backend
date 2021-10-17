@@ -3,3 +3,4 @@ Flask
 flask-restful
 Flask-Cors
 instaloader
+requests
