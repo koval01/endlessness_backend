@@ -1,3 +1,5 @@
+import logging
+
 from cryptography.fernet import Fernet
 import re
 
@@ -24,6 +26,10 @@ class PostProcess:
 
     @staticmethod
     def clean_caption(caption: str) -> str:
-        pattern = "[A-Za-z0-9_%s%s]+" % (russian_symbols, russian_symbols.upper())
-        x = re.sub("#"+pattern, "", caption)
-        return re.sub("@"+pattern, "", x).strip()
+        try:
+            pattern = "[A-Za-z0-9_%s%s]+" % (russian_symbols, russian_symbols.upper())
+            x = re.sub("#"+pattern, "", caption)
+            return re.sub("@"+pattern, "", x).strip()
+        except Exception as e:
+            logging.error("Caption clean error. (%s)" % e)
+            return ""
