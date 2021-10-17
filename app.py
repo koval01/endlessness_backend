@@ -36,6 +36,7 @@ class Random(Resource):
                     "img_link": post.url,
                     "likes_count": PostProcess.number_formatter(int(post.likes)),
                     "shortcode": post.shortcode,
+                    "caption": post.caption,
                 })
                 if len(posts) >= 9:
                     break
