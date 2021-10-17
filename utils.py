@@ -26,4 +26,4 @@ class PostProcess:
     def clean_caption(caption: str) -> str:
         pattern = "[A-Za-z0-9_%s%s]+" % (russian_symbols, russian_symbols.upper())
         x = re.sub("#"+pattern, "", caption)
-        return re.sub("@"+pattern, "", x)
+        return re.sub("@"+pattern, "", x).strip()
