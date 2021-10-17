@@ -57,7 +57,7 @@ class Random(Resource):
                     "img_link": PostProcess.encoder({"url": post.url, "time": time()}, enc_key),
                     "likes_count": PostProcess.number_formatter(int(post.likes)),
                     "shortcode": post.shortcode,
-                    "caption": post.caption,
+                    "caption": PostProcess.clean_caption(post.caption),
                 })
                 if len(posts) >= 9:
                     break

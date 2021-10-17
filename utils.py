@@ -1,4 +1,5 @@
 from cryptography.fernet import Fernet
+import re
 
 
 class PostProcess:
@@ -18,3 +19,8 @@ class PostProcess:
         salt_link = Fernet(enc_key)
         data_link = str.encode(str(link))
         return salt_link.encrypt(data_link).decode("utf-8")
+
+    @staticmethod
+    def clean_caption(caption: str) -> str:
+        x = re.sub("@[A-Za-z0-9_]+", "", caption)
+        return re.sub("#[A-Za-z0-9_]+", "", x)
