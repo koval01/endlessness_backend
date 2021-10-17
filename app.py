@@ -19,7 +19,7 @@ CORS(app)
 instagram_load = Instaloader()
 instagram_load.login("develop_account_kdv", "tiwjyg-9renva-jadwaV")
 
-enc_key = Fernet.generate_key()
+enc_key = b'r73QFT58DEGZIpGLUHW319V_brwT1pqMVcKa7cNDj_A='
 
 
 class Status(Resource):
