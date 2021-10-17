@@ -1,6 +1,8 @@
 from cryptography.fernet import Fernet
 import re
 
+russian_symbols = "йцукенгшщзхъёфывапролджэячсмитьбюієїґ"
+
 
 class PostProcess:
     @staticmethod
@@ -22,5 +24,6 @@ class PostProcess:
 
     @staticmethod
     def clean_caption(caption: str) -> str:
-        x = re.sub("@[A-Za-z0-9_]+", "", caption)
-        return re.sub("#[A-Za-z0-9_]+", "", x)
+        pattern = "[A-Za-z0-9_%s%s]+" % (russian_symbols, russian_symbols.upper())
+        x = re.sub("#"+pattern, "", caption)
+        return re.sub("@"+pattern, "", x)
