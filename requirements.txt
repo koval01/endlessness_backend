@@ -4,3 +4,4 @@ flask-restful
 Flask-Cors
 instaloader
 requests
+cryptography
