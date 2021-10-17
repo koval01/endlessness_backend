@@ -50,19 +50,16 @@ class Random(Resource):
         g.start = time()
         posts = []
 
-        try:
-            feed = instagram_load.get_explore_posts()
-            for post in feed:
-                posts.append({
-                    "img_link": PostProcess.encoder({"url": post.url, "time": time()}, enc_key),
-                    "likes_count": PostProcess.number_formatter(int(post.likes)),
-                    "shortcode": post.shortcode,
-                    "caption": PostProcess.clean_caption(post.caption),
-                })
-                if len(posts) >= 9:
-                    break
-        except Exception as e:
-            logging.error(e)
+        feed = instagram_load.get_explore_posts()
+        for post in feed:
+            posts.append({
+                "img_link": PostProcess.encoder({"url": post.url, "time": time()}, enc_key),
+                "likes_count": PostProcess.number_formatter(int(post.likes)),
+                "shortcode": post.shortcode,
+                "caption": PostProcess.clean_caption(post.caption),
+            })
+            if len(posts) >= 9:
+                break
 
         return jsonify({
             "success": len(posts) != 0,
