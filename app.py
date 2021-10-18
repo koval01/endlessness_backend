@@ -16,6 +16,7 @@ api = Api(app)
 CORS(app)
 
 instagram_load = instaloader.Instaloader()
+instagram_load.login("kvargs_p", "xyxtod-nugQoj-8pujdu")
 feed = instaloader.Hashtag.from_name(instagram_load.context, "stockings").get_posts()
 
 enc_key = b'r73QFT58DEGZIpGLUHW319V_brwT1pqMVcKa7cNDj_A='
