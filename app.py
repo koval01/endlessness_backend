@@ -36,7 +36,7 @@ class Image(Resource):
             salt_link = Fernet(enc_key)
             link_get = eval(salt_link.decrypt(str.encode(str(url))).decode('utf-8'))
 
-            if (link_get["time"] + 40) > time():
+            if (link_get["time"] + 35) > time():
                 r = get(
                     link_get["url"], stream=True,
                     headers={'user-agent': request.headers.get('user-agent')}
@@ -60,7 +60,6 @@ class Random(Resource):
                     "img_link": PostProcess.encoder({"url": post.url, "time": time()}, enc_key),
                     "likes_count": PostProcess.number_formatter(int(post.likes)),
                     "shortcode": post.shortcode,
-                    "caption": PostProcess.clean_caption(post.caption),
                 })
                 if len(posts) >= 9:
                     break
