@@ -17,6 +17,7 @@ CORS(app)
 
 instagram_load = instaloader.Instaloader()
 instagram_load.login("kvargs_p", "xyxtod-nugQoj-8pujdu")
+feed = instagram_load.get_explore_posts()
 
 enc_key = b'r73QFT58DEGZIpGLUHW319V_brwT1pqMVcKa7cNDj_A='
 
@@ -35,7 +36,7 @@ class Image(Resource):
             salt_link = Fernet(enc_key)
             link_get = eval(salt_link.decrypt(str.encode(str(url))).decode('utf-8'))
 
-            if (link_get["time"] + 60) > time():
+            if (link_get["time"] + 40) > time():
                 r = get(
                     link_get["url"], stream=True,
                     headers={'user-agent': request.headers.get('user-agent')}
@@ -54,7 +55,6 @@ class Random(Resource):
             g.start = time()
             posts = []
 
-            feed = instaloader.Hashtag.from_name(instagram_load.context, "stockings").get_posts()
             for post in feed:
                 posts.append({
                     "img_link": PostProcess.encoder({"url": post.url, "time": time()}, enc_key),
