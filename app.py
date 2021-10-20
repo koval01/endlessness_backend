@@ -65,7 +65,7 @@ class Random(Resource):
                     "likes_count": PostProcess.number_formatter(int(post.likes)),
                     "shortcode": post.shortcode,
                 })
-                if len(posts) >= 12:
+                if len(posts) >= 14:
                     break
 
             return jsonify({
