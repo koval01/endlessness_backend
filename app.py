@@ -1,5 +1,6 @@
 import logging
 import instaloader
+import os
 
 from flask import Flask, jsonify, g, Response, request
 from flask_restful import Resource, Api
@@ -16,10 +17,13 @@ api = Api(app)
 CORS(app)
 
 instagram_load = instaloader.Instaloader()
-instagram_load.login("kvargs_p", "xyxtod-nugQoj-8pujdu")
+instagram_load.login(
+    os.environ.get("IG_LOGIN"),
+    os.environ.get("IG_PASSWORD"),
+)
 feed = instagram_load.get_explore_posts()
 
-enc_key = b'r73QFT58DEGZIpGLUHW319V_brwT1pqMVcKa7cNDj_A='
+enc_key = bytes(os.environ.get("ENC_KEY"), 'utf-8')
 
 
 class Status(Resource):
