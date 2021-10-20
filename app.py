@@ -62,7 +62,6 @@ class Random(Resource):
             for post in feed:
                 posts.append({
                     "img_link": PostProcess.encoder({"url": post.url, "time": time()}, enc_key),
-                    "likes_count": PostProcess.number_formatter(int(post.likes)),
                     "shortcode": post.shortcode,
                 })
                 if len(posts) >= 12:
