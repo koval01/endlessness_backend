@@ -43,7 +43,7 @@ def parser() -> None:
 class Status(Resource):
     @staticmethod
     def get() -> Response:
-        return jsonify({'run': True})
+        return jsonify({'run': True, "buff": len(local_feed)})
 
 
 class Image(Resource):
@@ -71,7 +71,6 @@ class Random(Resource):
     def get() -> Response:
         try:
             global local_feed
-            g.start = time()
 
             local_feed_ = local_feed[:]
             shuffle(local_feed_)
@@ -82,13 +81,12 @@ class Random(Resource):
 
             return jsonify({
                 "success": len(posts) != 0,
-                "time": time() - g.start,
                 "posts": posts,
                 "count": len(posts),
             })
         except Exception as e:
             logging.error("Error get random posts, details - %s" % e)
-            return jsonify({"success": False, "time": time() - g.start})
+            return jsonify({"success": False})
 
 
 api.add_resource(Status, '/')
