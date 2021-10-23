@@ -82,13 +82,13 @@ class Random(Resource):
 
             return jsonify({
                 "success": len(posts) != 0,
-                "time": round(time() - g.start, 5),
+                "time": time() - g.start,
                 "posts": posts,
                 "count": len(posts),
             })
         except Exception as e:
             logging.error("Error get random posts, details - %s" % e)
-            return jsonify({"success": False, "time": round(time() - g.start, 3)})
+            return jsonify({"success": False, "time": time() - g.start})
 
 
 api.add_resource(Status, '/')
@@ -96,4 +96,5 @@ api.add_resource(Random, '/random')
 api.add_resource(Image, '/image')
 
 if __name__ == '__main__':
-    threading.Thread(target=parser).start(), app.run()
+    threading.Thread(target=app.run).start()
+    threading.Thread(target=parser).start()
