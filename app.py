@@ -1,6 +1,7 @@
 import logging
 import instaloader
 import os
+import threading
 
 from flask import Flask, jsonify, g, Response, request
 from flask_restful import Resource, Api
@@ -10,11 +11,15 @@ from utils import PostProcess
 from requests import get
 from time import time
 
+from random import shuffle
+
 from cryptography.fernet import Fernet
 
 app = Flask(__name__)
 api = Api(app)
 CORS(app)
+
+enc_key = bytes(os.environ.get("ENC_KEY"), 'utf-8')
 
 instagram_load = instaloader.Instaloader()
 instagram_load.login(
@@ -22,8 +27,16 @@ instagram_load.login(
     os.environ.get("IG_PASSWORD"),
 )
 feed = instagram_load.get_explore_posts()
+local_feed = []
 
-enc_key = bytes(os.environ.get("ENC_KEY"), 'utf-8')
+
+def parser() -> None:
+    global local_feed
+    for post in feed:
+        local_feed.append({
+            "img_link": PostProcess.encoder({"url": post.url, "time": time()}, enc_key),
+            "shortcode": post.shortcode,
+        })
 
 
 class Status(Resource):
@@ -56,16 +69,15 @@ class Random(Resource):
     @staticmethod
     def get() -> Response:
         try:
+            global local_feed
             g.start = time()
-            posts = []
 
-            for post in feed:
-                posts.append({
-                    "img_link": PostProcess.encoder({"url": post.url, "time": time()}, enc_key),
-                    "shortcode": post.shortcode,
-                })
-                if len(posts) >= 12:
-                    break
+            local_feed_ = local_feed[:]
+            shuffle(local_feed_)
+            posts = local_feed_[-15:]
+
+            if len(local_feed) > 1500:
+                local_feed = local_feed[-1500:]
 
             return jsonify({
                 "success": len(posts) != 0,
@@ -83,4 +95,6 @@ api.add_resource(Random, '/random')
 api.add_resource(Image, '/image')
 
 if __name__ == '__main__':
+    th = threading.Thread(target=parser)
+    th.start()
     app.run()
