@@ -32,6 +32,7 @@ local_feed = []
 
 def parser() -> None:
     global local_feed
+    logging.info("Parser started!")
     for post in feed:
         local_feed.append({
             "img_link": PostProcess.encoder({"url": post.url, "time": time()}, enc_key),
@@ -81,7 +82,7 @@ class Random(Resource):
 
             return jsonify({
                 "success": len(posts) != 0,
-                "time": round(time() - g.start, 3),
+                "time": round(time() - g.start, 5),
                 "posts": posts,
                 "count": len(posts),
             })
