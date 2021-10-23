@@ -96,6 +96,4 @@ api.add_resource(Random, '/random')
 api.add_resource(Image, '/image')
 
 if __name__ == '__main__':
-    th = threading.Thread(target=parser)
-    th.start()
-    app.run()
+    threading.Thread(target=parser).start(), app.run()
