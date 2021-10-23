@@ -32,7 +32,7 @@ local_feed = []
 
 def parser() -> None:
     global local_feed
-    logging.info("Parser started!")
+    print("Parser started!")
     for post in feed:
         local_feed.append({
             "img_link": PostProcess.encoder({"url": post.url, "time": time()}, enc_key),
