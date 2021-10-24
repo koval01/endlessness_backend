@@ -77,5 +77,4 @@ api.add_resource(Status, '/')
 api.add_resource(Random, '/random')
 api.add_resource(Image, '/image')
 
-if __name__ == "__main__":
-    app.run()
+app.run()
